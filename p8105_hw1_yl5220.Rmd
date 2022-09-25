@@ -1,0 +1,59 @@
+---
+title: "p8105_hw1_yl5220"
+output: github_document
+date: "2022-09-24"
+---
+
+# Problem 1
+
+**Import dataset**
+```{r}
+library(tidyverse)
+data("penguins", package = "palmerpenguins")
+```
+
+**Clean NA values from the dataset**
+```{r}
+penguins = drop_na(penguins)
+```
+
+**Description of dataset**
+The names and values of important variables are `r colnames(penguins)`
+The size of the dataset is: `r nrow(penguins)` rows and `r ncol(penguins)` columns
+The mean flipper length is: `r mean(penguins$flipper_length_mm)` mm
+
+**Make scatterplot**
+```{r}
+ggplot(penguins, aes(x=bill_length_mm, y=flipper_length_mm, color = species)) + geom_point()
+ggsave("penguins.pdf")
+```
+
+# Problem 2
+
+**Create dataframe**
+```{r}
+example_df = tibble(
+  sample = rnorm(10),
+  vec_logical = sample > 0,
+  vec_char = c("My", "name", "is", "Yixuan", "Hi", "again", "this", "is", "Yichen", "bye"),
+  vec_factor = factor(c("male", "male", "male", "female", "female", "female", "other", "other", "other", "other"))
+)
+```
+
+**Take the mean of each variable**
+```{r}
+mean(example_df$sample)
+mean(example_df$vec_logical)
+mean(example_df$vec_char)
+mean(example_df$vec_factor)
+```
+Mean works for the numeric and logistic type, but not for the character and factor types. 
+
+**Apply as.numeric function**
+```{r}
+as.numeric(example_df$sample)
+as.numeric(example_df$vec_logical)
+as.numeric(example_df$vec_char)
+as.numeric(example_df$vec_factor)
+```
+The function turned logical type into values 0 and 1, factor type into number series, and character type into NA. This helps explain why the mean of logistic type can be taken.
